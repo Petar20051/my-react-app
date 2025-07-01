@@ -1,0 +1,42 @@
+[
+	{
+		"title": "GrassN",
+		"label": "GN",
+		"image": "images/grassN.jpeg",
+		"info": "Optimal grassland management",
+		"description": "Plan compliant fertilization and optimal harvest time for grassland.",
+		"linkText": "Open GrassN"
+	},
+	{
+		"title": "Atfarm",
+		"label": "AI",
+		"image": "images/atfarm.jpeg",
+		"info": "Arable precision farming",
+		"description": "Apply nitrogen with precision and make better decisions on your farm.",
+		"linkText": "Go to Atfarm"
+	},
+	{
+		"title": "TankMix",
+		"label": "Ti",
+		"image": "images/tankmix.jpeg",
+		"info": "Safely mix YaraVita and crop protection products",
+		"description": "Check the tank mixability of YaraVita and crop protection products.",
+		"linkText": "Open TankMix"
+	},
+	{
+		"title": "Rewards",
+		"label": "★",
+		"image": "images/rewards.jpeg",
+		"info": "Get rewards for your loyalty",
+		"description": "Unlock rewards from a diverse catalogue with each purchase.",
+		"linkText": "Open Rewards"
+	},
+	{
+		"title": "Shop",
+		"label": "🛒",
+		"image": "images/shop.jpeg",
+		"info": "Find fertilizers and more",
+		"description": "Discover the ideal Yara products and services for your farm.",
+		"linkText": "Open Shop"
+	}
+]

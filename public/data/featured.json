@@ -1,0 +1,18 @@
+[
+	{
+		"title": "GrassN",
+		"label": "GN",
+		"tag": "Recommended",
+		"image": "images/grassNsoftware.jpeg",
+		"info": "Optimal grassland management",
+		"description": "Plan compliant fertilization and optimal harvest time for grassland.",
+		"topics": ["Grassland", "Mineral fertilization", "Yield"],
+		"linkText": "Discover"
+	},
+	{
+		"title": "Request a quote",
+		"image": "images/quote.jpeg",
+		"description": "Explore our product range and receive an offer from distributors near you.",
+		"linkText": "Request a quote"
+	}
+]
