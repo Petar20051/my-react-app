@@ -1,14 +1,14 @@
 [
 	{
 		"title": "Brand new research for potato fields",
-		"image": "images/farmer.jpeg",
+		"image": "src/assets/farmer.jpeg",
 		"description": "End hunger, achieve food security, and promote sustainable agriculture.",
 		"date": "26 June 2023",
 		"linkText": "Read more"
 	},
 	{
 		"title": "Meet with us at Agritechnica 2023!",
-		"image": "images/agritechnica.jpeg",
+		"image": "src/assets/agritechnica.jpeg",
 		"description": "End hunger, achieve food security, and promote sustainable agriculture.",
 		"date": "26 June 2023",
 		"linkText": "Read more"

@@ -1,102 +1,80 @@
-import styled from 'styled-components';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faHome, faCalendar, faNewspaper, faPodcast, faRotateLeft, faRotateBack} from '@fortawesome/free-solid-svg-icons';
-import {useAuth} from '../../context/AuthContext';
+import {Link} from 'react-router-dom';
+import ConfirmDialog from '../ConfirmDialog/confirmDialog';
+import {NavItem, NavLink, NavList, SidebarNav, SidebarWrapper} from './sidebar.styles';
+import type {SidebarProps} from '../../types/formProps';
+import {useSidebarLogic} from '../../hooks/useSidebarLogic';
 
-const SidebarWrapper = styled.aside`
-	height: calc(100% - 70px);
-	background-color: white;
-	border-right: 1px solid #e0e0e0;
-	padding: 20px;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-`;
+const Sidebar: React.FC<SidebarProps> = ({isOpen, closeSidebar, ignoreRef}) => {
+	const {sidebarRef, showLogoutConfirm, handleLogout, confirmLogout, cancelLogout} = useSidebarLogic({isOpen, closeSidebar, ignoreRef});
 
-const SidebarNav = styled.nav`
-	width: 100%;
-`;
-
-const NavList = styled.ul`
-	list-style: none;
-	padding: 0;
-	margin: 0;
-	display: flex;
-	flex-direction: column;
-	gap: 10px;
-	justify-content: left;
-`;
-
-const NavItem = styled.li`
-	gap: 10px;
-`;
-
-const NavLink = styled.a`
-	display: flex;
-	align-items: center;
-	gap: 12px;
-	padding: 10px 30px;
-	font-size: 16px;
-	text-decoration: none;
-	border-radius: 8px;
-	justify-content: flex-start;
-
-	&:hover {
-		background-color: aliceblue;
-		color: cyan;
-		padding-right: 60px;
-	}
-`;
-
-export default function Sidebar() {
-	const {logout} = useAuth();
 	return (
-		<SidebarWrapper>
+		<SidebarWrapper open={isOpen} ref={sidebarRef}>
 			<SidebarNav>
 				<NavList>
 					<NavItem>
-						<NavLink href="#">
-							<FontAwesomeIcon icon={faHome} />
-							Home
-						</NavLink>
+						<Link to="/" onClick={closeSidebar}>
+							<NavLink>
+								<FontAwesomeIcon icon={faHome} />
+								Home
+							</NavLink>
+						</Link>
 					</NavItem>
 					<NavItem>
-						<NavLink href="#">
-							<FontAwesomeIcon icon={faCalendar} />
-							Events
-						</NavLink>
+						<Link to="/content?type=events" onClick={closeSidebar}>
+							<NavLink>
+								<FontAwesomeIcon icon={faCalendar} />
+								Events
+							</NavLink>
+						</Link>
 					</NavItem>
 					<NavItem>
-						<NavLink href="#">
-							<FontAwesomeIcon icon={faNewspaper} />
-							News
-						</NavLink>
+						<Link to="/content?type=news" onClick={closeSidebar}>
+							<NavLink>
+								<FontAwesomeIcon icon={faNewspaper} />
+								News
+							</NavLink>
+						</Link>
 					</NavItem>
 					<NavItem>
-						<NavLink href="#">
-							<FontAwesomeIcon icon={faPodcast} />
-							Podcasts
-						</NavLink>
+						<Link to="/content?type=podcasts" onClick={closeSidebar}>
+							<NavLink>
+								<FontAwesomeIcon icon={faPodcast} />
+								Podcasts
+							</NavLink>
+						</Link>
 					</NavItem>
 					<NavItem>
-						<NavLink
-							href="#"
-							onClick={(e) => {
-								e.preventDefault();
-								alert('Logging out...');
-								logout();
-							}}
-						>
+						<NavLink href="#" onClick={handleLogout}>
 							<FontAwesomeIcon icon={faRotateBack} />
 							Logout
 						</NavLink>
 					</NavItem>
 				</NavList>
 			</SidebarNav>
-			<NavLink href="#">
-				<FontAwesomeIcon icon={faRotateLeft} />
-				Restart the tour
-			</NavLink>
+
+			<Link
+				to=""
+				onClick={() => {
+					closeSidebar();
+					window.scrollTo({top: 0, behavior: 'smooth'});
+				}}
+			>
+				<NavLink>
+					<FontAwesomeIcon icon={faRotateLeft} />
+					Restart the tour
+				</NavLink>
+			</Link>
+
+			<ConfirmDialog
+				message="Are you sure you want to log out?"
+				visible={showLogoutConfirm}
+				onConfirm={confirmLogout}
+				onCancel={cancelLogout}
+			/>
 		</SidebarWrapper>
 	);
-}
+};
+
+export default Sidebar;

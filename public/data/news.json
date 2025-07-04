@@ -2,7 +2,7 @@
 	{
 		"category": "Potatoes",
 		"title": "Brand new research for potato fields",
-		"image": "images/potatoes.jpeg",
+		"image": "src/assets/potatoes.jpeg",
 		"description": "End hunger, achieve food security, and promote sustainable agriculture.",
 		"date": "26 June 2023",
 		"linkText": "Read more"
@@ -10,7 +10,7 @@
 	{
 		"category": "Weather",
 		"title": "No rain foreseen for the next 10 days",
-		"image": "images/weather.jpeg",
+		"image": "src/assets/weather.jpeg",
 		"description": "End hunger, achieve food security, and promote sustainable agriculture.",
 		"date": "26 June 2023",
 		"linkText": "Read more"
@@ -18,7 +18,7 @@
 	{
 		"category": "Wheat",
 		"title": "This year's harvest foreseen to be great",
-		"image": "images/wheat.jpeg",
+		"image": "src/assets/wheat.jpeg",
 		"description": "End hunger, achieve food security, and promote sustainable agriculture.",
 		"date": "26 June 2023",
 		"linkText": "Read more"
@@ -26,7 +26,7 @@
 	{
 		"category": "Dairy",
 		"title": "Cows are happier than ever says expert",
-		"image": "images/cows.jpeg",
+		"image": "src/assets/cows.jpeg",
 		"description": "End hunger, achieve food security, and promote sustainable agriculture.",
 		"date": "26 June 2023",
 		"linkText": "Read more"

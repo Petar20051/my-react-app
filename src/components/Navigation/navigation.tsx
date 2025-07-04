@@ -1,120 +1,32 @@
-import styled from 'styled-components';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faLocationDot, faQuestionCircle, faUserCircle, faTh} from '@fortawesome/free-solid-svg-icons';
 import logo from '../../assets/logo.png';
+import React from 'react';
+import {
+	CompanyTitle,
+	LeftSection,
+	LocationOption,
+	LocationSelector,
+	Logo,
+	MenuIcon,
+	NavigationIcons,
+	NavigationWrapper,
+	RightSection,
+} from './navigation.styles';
+import type {NavigationProps} from '../../types/formProps';
 
-const HeaderWrapper = styled.header`
-	width: 100%;
-	height: 70px;
-	background-color: darkblue;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	position: fixed;
-	top: 0;
-	left: 0;
-	color: white;
-	z-index: 1000;
-`;
-
-const LeftSection = styled.div`
-	display: flex;
-	align-items: center;
-	gap: 10px;
-	padding-left: 20px;
-`;
-
-const Logo = styled.img`
-	height: 40px;
-`;
-
-const CompanyTitle = styled.span`
-	font-size: 20px;
-	font-weight: bold;
-`;
-
-const MenuToggle = styled.input`
-	display: none;
-`;
-
-const MenuIcon = styled.label`
-	display: none;
-	flex-direction: column;
-	gap: 4px;
-	cursor: pointer;
-
-	span {
-		width: 25px;
-		height: 3px;
-		background: white;
-		display: block;
-	}
-`;
-
-const RightSection = styled.nav`
-	display: flex;
-	align-items: center;
-	gap: 20px;
-	padding-right: 30px;
-`;
-
-const LocationSelector = styled.div`
-	display: flex;
-	align-items: center;
-	gap: 20px;
-	background-color: #09144a;
-	border-radius: 5px;
-	padding: 3px 5px;
-`;
-
-const LocationOption = styled.div`
-	display: flex;
-	flex-direction: column;
-	color: white;
-
-	label {
-		font-size: 10px;
-	}
-
-	select {
-		border: none;
-		font-size: 12px;
-		color: white;
-		background-color: transparent;
-	}
-`;
-
-export const NavIcons = styled.ul`
-	list-style: none;
-	display: flex;
-	gap: 20px;
-	margin: 0;
-	padding: 0;
-
-	li a {
-		color: white;
-		font-size: 24px;
-
-		&:hover {
-			color: #add8e6;
-		}
-	}
-`;
-
-export default function Navigation() {
+const Navigation: React.FC<NavigationProps> = ({toggleSidebar, menuRef}) => {
 	return (
-		<HeaderWrapper>
+		<NavigationWrapper>
 			<LeftSection>
-				<Logo src={logo} alt="YaraPlus Logo" />
+				<MenuIcon onClick={toggleSidebar} ref={menuRef}>
+					<span></span>
+					<span></span>
+					<span></span>
+				</MenuIcon>
+				<Logo src={logo} alt="VaraPlus Logo" />
 				<CompanyTitle>VaraPlus</CompanyTitle>
 			</LeftSection>
-
-			<MenuToggle type="checkbox" id="menu-toggle" />
-			<MenuIcon>
-				<span></span>
-				<span></span>
-				<span></span>
-			</MenuIcon>
 
 			<RightSection>
 				<LocationSelector>
@@ -130,7 +42,7 @@ export default function Navigation() {
 					</LocationOption>
 				</LocationSelector>
 
-				<NavIcons>
+				<NavigationIcons>
 					<li>
 						<a href="#">
 							<FontAwesomeIcon icon={faQuestionCircle} />
@@ -146,8 +58,10 @@ export default function Navigation() {
 							<FontAwesomeIcon icon={faTh} />
 						</a>
 					</li>
-				</NavIcons>
+				</NavigationIcons>
 			</RightSection>
-		</HeaderWrapper>
+		</NavigationWrapper>
 	);
-}
+};
+
+export default Navigation;
