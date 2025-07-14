@@ -1,61 +1,51 @@
-import {BrowserRouter, Routes, Route} from 'react-router-dom';
+import {BrowserRouter, Routes, Route, Navigate} from 'react-router-dom';
+import {AuthProvider, useAuth} from './context/AuthContext';
+import Layout from './components/pages/MainPage/MainPageLayout';
+import NotFound from './components/pages/NotFoundPage/NotFound';
+import './styles/global.css';
+import LoginForm from './components/pages/Auth/LoginForm';
+import SignupForm from './components/pages/Auth/SignUpForm';
+import MainContent from './components/layouts/MainContent/MainContent';
+import SingleContentPage from './components/layouts/SIngleSectionPage/SingleSectionPage';
+import SingleCardPage from './components/layouts/SingleCardPage/singleCardPage';
+import {CardProvider} from './context/CardContext';
+import {ROUTES} from './constants/routes';
 
-import GlobalStyle from './styles/GlobalStyle';
+function AppRoutes() {
+	const {user, authReady} = useAuth();
 
-import {AuthProvider} from './context/AuthContext';
+	if (!authReady) return <div>Loading...</div>;
 
-import Layout from './layouts/MainPage/MainPageLayout';
+	if (!user) {
+		return (
+			<Routes>
+				<Route path={ROUTES.LOGIN} element={<LoginForm />} />
+				<Route path={ROUTES.SIGNUP} element={<SignupForm />} />
+				<Route path={ROUTES.NOT_FOUND} element={<Navigate to={ROUTES.LOGIN} replace />} />
+			</Routes>
+		);
+	}
 
-import LoginForm from './layouts/Auth/LoginForm';
-import SignupForm from './layouts/Auth/SignUpForm';
-import NotFound from './layouts/NotFoundPage/NotFound';
-import MainContent from './layouts/MainContent/MainContent';
-import SingleContentPage from './layouts/SIngleSectionPage/SingleSectionPage';
-import SingleCardPage from './layouts/SingleCardPage/singleCardPage';
+	return (
+		<CardProvider>
+			<Routes>
+				<Route path={ROUTES.HOME} element={<Layout />}>
+					<Route index element={<MainContent />} />
+					<Route path={ROUTES.CONTENT.slice(1)} element={<SingleContentPage />} />
+					<Route path={ROUTES.SINGLE.slice(1)} element={<SingleCardPage />} />
+				</Route>
+				<Route path={ROUTES.NOT_FOUND} element={<NotFound />} />
+			</Routes>
+		</CardProvider>
+	);
+}
 
-import RouteGuard from './components/Auth/RouteGuard';
-
-function App() {
+export default function App() {
 	return (
 		<BrowserRouter>
-			<GlobalStyle />
 			<AuthProvider>
-				<Routes>
-					<Route
-						path="login"
-						element={
-							<RouteGuard allowIfAuthenticated={false} redirectTo="/">
-								<LoginForm />
-							</RouteGuard>
-						}
-					/>
-					<Route
-						path="signup"
-						element={
-							<RouteGuard allowIfAuthenticated={false} redirectTo="/">
-								<SignupForm />
-							</RouteGuard>
-						}
-					/>
-
-					<Route
-						path="/"
-						element={
-							<RouteGuard allowIfAuthenticated={true} redirectTo="/login">
-								<Layout />
-							</RouteGuard>
-						}
-					>
-						<Route index element={<MainContent />} />
-						<Route path="content" element={<SingleContentPage />} />
-						<Route path="single" element={<SingleCardPage />} />
-					</Route>
-
-					<Route path="*" element={<NotFound />} />
-				</Routes>
+				<AppRoutes />
 			</AuthProvider>
 		</BrowserRouter>
 	);
 }
-
-export default App;

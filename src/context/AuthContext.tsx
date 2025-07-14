@@ -1,30 +1,36 @@
-import {createContext, useContext, useState} from 'react';
-import type {User} from '../types/auth';
+import {createContext, useContext, useEffect, useState} from 'react';
 import {getAuthUser, logOut, saveAuthUser, saveUser} from '../utils/authStorage';
+import type {User} from '../types/auth';
 import type {LoginData, SignUpData} from '../validation/Auth';
-import type {AuthContextType} from '../types/formProps';
+
+type AuthContextType = {
+	user: User | null;
+	authReady: boolean;
+	login: (data: LoginData) => void;
+	logout: () => void;
+	signup: (data: SignUpData) => void;
+};
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({children}: {children: React.ReactNode}) => {
-	const [user, setUser] = useState<User | null>(() => getAuthUser());
-	const [authReady] = useState(true);
+	const [user, setUser] = useState<User | null>(null);
+	const [authReady, setAuthReady] = useState(false);
+
+	useEffect(() => {
+		const storedUser = getAuthUser();
+		if (storedUser) {
+			setUser(storedUser);
+		}
+		setAuthReady(true);
+	}, []);
 
 	const login = (data: LoginData) => {
-		const storedUsers = JSON.parse(localStorage.getItem('users') || '[]') as User[];
-		const foundUser = storedUsers.find((u) => u.email === data.email && u.password === data.password);
-
-		if (foundUser) {
-			saveAuthUser(foundUser);
-			setUser(foundUser);
-		} else {
-			alert('Invalid email or password');
-		}
-	};
-
-	const logout = () => {
-		logOut();
-		setUser(null);
+		const users = JSON.parse(localStorage.getItem('users') || '[]') as User[];
+		const found = users.find((u) => u.email === data.email && u.password === data.password);
+		if (!found) return alert('Invalid credentials');
+		saveAuthUser(found);
+		setUser(found);
 	};
 
 	const signup = (data: SignUpData) => {
@@ -33,14 +39,16 @@ export const AuthProvider = ({children}: {children: React.ReactNode}) => {
 		setUser(data);
 	};
 
+	const logout = () => {
+		logOut();
+		setUser(null);
+	};
+
 	return <AuthContext.Provider value={{user, authReady, login, logout, signup}}>{children}</AuthContext.Provider>;
 };
 
-// eslint-disable-next-line react-refresh/only-export-components
 export const useAuth = () => {
 	const context = useContext(AuthContext);
-	if (!context) {
-		throw new Error('useAuth must be used within AuthProvider');
-	}
+	if (!context) throw new Error('useAuth must be used within AuthProvider');
 	return context;
 };
