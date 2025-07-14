@@ -1,9 +1,9 @@
-import type {CardType} from '../types/cards';
-
-export const CARD_TYPE: Record<CardType, CardType> = {
+export const CARD_TYPE = {
+	solutions: 'solutions',
+	featured: 'featured',
+	events: 'events',
 	podcasts: 'podcasts',
 	news: 'news',
-	events: 'events',
-	featured: 'featured',
-	solutions: 'solutions',
-};
+} as const;
+
+export type CardType = keyof typeof CARD_TYPE;

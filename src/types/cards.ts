@@ -11,5 +11,3 @@ export type UniversalCard = {
 	episode?: string;
 	category?: string;
 };
-
-export type CardType = 'solutions' | 'featured' | 'events' | 'podcasts' | 'news';
