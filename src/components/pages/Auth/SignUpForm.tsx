@@ -1,5 +1,5 @@
 import {AuthForm} from '../../organisms/Auth/AuthForm';
-import {signupFormConfig} from '../../../constants/formConfig';
+import {signupFormConfig} from '../../../constants/authFormConfig';
 import {useAuth} from '../../../context/AuthContext';
 import {SignUpSchema, type SignUpData} from '../../../validation/Auth';
 

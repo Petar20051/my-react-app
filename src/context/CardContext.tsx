@@ -1,6 +1,6 @@
 import {createContext, useContext, useEffect, useState, type PropsWithChildren} from 'react';
 import {useFetchAndValidateJSON} from '../hooks/useFetch';
-import {DATA_PATHS} from '../constants/paths';
+import {DATA_PATHS} from '../constants/dataPaths';
 import {
 	EventCardArraySchema,
 	SolutionCardArraySchema,

@@ -1,5 +1,5 @@
 import {AuthForm} from '../../organisms/Auth/AuthForm';
-import {loginFormConfig} from '../../../constants/formConfig';
+import {loginFormConfig} from '../../../constants/authFormConfig';
 import {useAuth} from '../../../context/AuthContext';
 import {LoginSchema, type LoginData} from '../../../validation/Auth';
 
