@@ -1,0 +1,129 @@
+{
+	"events": [
+		{
+			"title": "Brand new research for potato fields",
+			"image": "/assets/farmer.jpeg",
+			"description": "End hunger, achieve food security, and promote sustainable agriculture.",
+			"date": "26 June 2023",
+			"linkText": "Read more"
+		},
+		{
+			"title": "Meet with us at Agritechnica 2023!",
+			"image": "/assets/agritechnica.jpeg",
+			"description": "End hunger, achieve food security, and promote sustainable agriculture.",
+			"date": "26 June 2023",
+			"linkText": "Read more"
+		}
+	],
+	"featured": [
+		{
+			"title": "GrassN",
+			"label": "GN",
+			"tag": "Recommended",
+			"image": "/assets/grassNsoftware.jpeg",
+			"info": "Optimal grassland management",
+			"description": "Plan compliant fertilization and optimal harvest time for grassland.",
+			"topics": ["Grassland", "Mineral fertilization", "Yield"],
+			"linkText": "Discover"
+		},
+		{
+			"title": "Request a quote",
+			"image": "/assets/quote.jpeg",
+			"description": "Explore our product range and receive an offer from distributors near you.",
+			"linkText": "Request a quote"
+		}
+	],
+	"news": [
+		{
+			"category": "Potatoes",
+			"title": "Brand new research for potato fields",
+			"image": "/assets/potatoes.jpeg",
+			"description": "End hunger, achieve food security, and promote sustainable agriculture.",
+			"date": "26 June 2023",
+			"linkText": "Read more"
+		},
+		{
+			"category": "Weather",
+			"title": "No rain foreseen for the next 10 days",
+			"image": "/assets/weather.jpeg",
+			"description": "End hunger, achieve food security, and promote sustainable agriculture.",
+			"date": "26 June 2023",
+			"linkText": "Read more"
+		},
+		{
+			"category": "Wheat",
+			"title": "This year's harvest foreseen to be great",
+			"image": "/assets/wheat.jpeg",
+			"description": "End hunger, achieve food security, and promote sustainable agriculture.",
+			"date": "26 June 2023",
+			"linkText": "Read more"
+		},
+		{
+			"category": "Dairy",
+			"title": "Cows are happier than ever says expert",
+			"image": "/assets/cows.jpeg",
+			"description": "End hunger, achieve food security, and promote sustainable agriculture.",
+			"date": "26 June 2023",
+			"linkText": "Read more"
+		}
+	],
+	"podcasts": [
+		{
+			"episode": "Episode #17",
+			"title": "Compliance and labor: the take of our expert",
+			"image": "/assets/worker.jpeg",
+			"description": "End hunger, achieve food security, and promote sustainable agriculture.",
+			"date": "26 June 2023",
+			"linkText": "Listen"
+		},
+		{
+			"episode": "Episode #16",
+			"title": "Tips and tricks to prepare for the season",
+			"description": "End hunger, achieve food security, and promote sustainable agriculture.",
+			"date": "26 June 2023",
+			"linkText": "Listen"
+		}
+	],
+	"solutions": [
+		{
+			"title": "GrassN",
+			"label": "GN",
+			"image": "/assets/grassN.jpeg",
+			"info": "Optimal grassland management",
+			"description": "Plan compliant fertilization and optimal harvest time for grassland.",
+			"linkText": "Open GrassN"
+		},
+		{
+			"title": "Atfarm",
+			"label": "AI",
+			"image": "/assets/atfarm.jpeg",
+			"info": "Arable precision farming",
+			"description": "Apply nitrogen with precision and make better decisions on your farm.",
+			"linkText": "Go to Atfarm"
+		},
+		{
+			"title": "TankMix",
+			"label": "Ti",
+			"image": "/assets/tankmix.jpeg",
+			"info": "Safely mix YaraVita and crop protection products",
+			"description": "Check the tank mixability of YaraVita and crop protection products.",
+			"linkText": "Open TankMix"
+		},
+		{
+			"title": "Rewards",
+			"label": "★",
+			"image": "/assets/rewards.jpeg",
+			"info": "Get rewards for your loyalty",
+			"description": "Unlock rewards from a diverse catalogue with each purchase.",
+			"linkText": "Open Rewards"
+		},
+		{
+			"title": "Shop",
+			"label": "🛒",
+			"image": "/assets/Shop.jpeg",
+			"info": "Find fertilizers and more",
+			"description": "Discover the ideal Yara products and services for your farm.",
+			"linkText": "Open Shop"
+		}
+	]
+}

@@ -1,10 +1,11 @@
 import {useSearchParams} from 'react-router-dom';
-import EventsSection from '../../components/Sections/Event/events';
-import NewsSection from '../../components/Sections/News/news';
-import PodcastsSection from '../../components/Sections/Podcast/podcasts';
 import type {JSX} from 'react';
-import ContentHeader from '../../components/SingleSection/ContentHeader';
+
 import {ContentWrapper, PageWrapper} from './singleSectionPage.styles';
+import EventsSection from '../../components/organisms/Sections/EventSection/EventsSection';
+import NewsSection from '../../components/organisms/Sections/NewsSection/NewsSection';
+import PodcastsSection from '../../components/organisms/Sections/PodcastSection/PodcastsSection';
+import ContentHeader from '../../components/organisms/SingleSectionHeader/ContentHeader';
 
 const SingleContentPage = () => {
 	const [searchParams] = useSearchParams();

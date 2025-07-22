@@ -1,58 +1,47 @@
 import {z} from 'zod';
 
-const BaseCardSchema = z.object({
-	title: z.string(),
-	description: z.string(),
-	linkText: z.string(),
-});
+export const variantEnum = z.enum(['default', 'event', 'news', 'podcast', 'solution', 'featured']);
+export type Variant = z.infer<typeof variantEnum>;
 
-const SolutionCardAdditionsSchema = z.object({
-	image: z.string(),
-	label: z.string(),
-	info: z.string(),
-});
-export const SolutionCardSchema = BaseCardSchema.merge(SolutionCardAdditionsSchema);
-export const SolutionCardArraySchema = SolutionCardSchema.array();
-export type SolutionCard = z.infer<typeof SolutionCardSchema>;
-export type SolutionCardArray = z.infer<typeof SolutionCardArraySchema>;
-
-const FeaturedCardAdditionsSchema = z.object({
-	image: z.string(),
+export const CardSchema = z.object({
+	title: z.string().optional(),
+	description: z.string().optional(),
+	linkText: z.string().optional(),
+	image: z.string().optional(),
 	label: z.string().optional(),
 	tag: z.string().optional(),
 	info: z.string().optional(),
 	topics: z.array(z.string()).optional(),
+	date: z.string().optional(),
+	episode: z.string().optional(),
+	category: z.string().optional(),
+	variant: variantEnum.optional(),
 });
-export const FeaturedCardSchema = BaseCardSchema.merge(FeaturedCardAdditionsSchema);
-export const FeaturedCardArraySchema = FeaturedCardSchema.array();
-export type FeaturedCard = z.infer<typeof FeaturedCardSchema>;
-export type FeaturedCardArray = z.infer<typeof FeaturedCardArraySchema>;
 
-const EventCardAdditionsSchema = z.object({
-	image: z.string(),
-	date: z.string(),
-});
-export const EventCardSchema = BaseCardSchema.merge(EventCardAdditionsSchema);
-export const EventCardArraySchema = EventCardSchema.array();
-export type EventCard = z.infer<typeof EventCardSchema>;
-export type EventCardArray = z.infer<typeof EventCardArraySchema>;
+export const CardArraySchema = CardSchema.array();
 
-const PodcastCardAdditionsSchema = z.object({
-	image: z.string().optional(),
-	date: z.string(),
-	episode: z.string(),
+export const CardMapSchema = z.object({
+	events: CardArraySchema,
+	solutions: CardArraySchema,
+	news: CardArraySchema,
+	featured: CardArraySchema,
+	podcasts: CardArraySchema,
 });
-export const PodcastCardSchema = BaseCardSchema.merge(PodcastCardAdditionsSchema);
-export const PodcastCardArraySchema = PodcastCardSchema.array();
-export type PodcastCard = z.infer<typeof PodcastCardSchema>;
-export type PodcastCardArray = z.infer<typeof PodcastCardArraySchema>;
 
-const NewsCardAdditionsSchema = z.object({
-	image: z.string().optional(),
-	category: z.string(),
-	date: z.string(),
-});
-export const NewsCardSchema = BaseCardSchema.merge(NewsCardAdditionsSchema);
-export const NewsCardArraySchema = NewsCardSchema.array();
-export type NewsCard = z.infer<typeof NewsCardSchema>;
-export type NewsCardArray = z.infer<typeof NewsCardArraySchema>;
+export type Card = z.infer<typeof CardSchema>;
+
+export type CardSectionType = keyof z.infer<typeof CardMapSchema>;
+
+export type CardMap = {
+	[K in CardSectionType]: Card[];
+};
+
+export const cardSectionTypes = ['events', 'solutions', 'news', 'featured', 'podcasts'] as const;
+
+export const variantMap: Record<CardSectionType, Variant> = {
+	events: 'event',
+	solutions: 'solution',
+	news: 'news',
+	featured: 'featured',
+	podcasts: 'podcast',
+};
