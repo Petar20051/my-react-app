@@ -1,70 +1,71 @@
-import {Link, useNavigate, useSearchParams, useLocation} from 'react-router-dom';
-import {Section, SectionTitleWrapper, ButtonWrapper} from '../../atoms/Layout';
-import {SectionHeading, SectionTitle} from '../../atoms/Typography';
-import {CTAButton, SectionHeadingBTn} from '../../atoms/Button';
 import {useCardContext} from '../../../context/CardContext';
-import type {CardType} from '../../../context/CardContext';
-import type {CardDataFromType} from '../../../validation/card-information';
+import {type CardSectionType, type CardMap, variantMap} from '../../../validation/card-information';
+import Card from '../Cards/Card';
+import {useCardLogic} from '../Cards/Card.logic';
+import {Link, useSearchParams} from 'react-router-dom';
+import Title from '../../atoms/Title/Title';
+import Button from '../../atoms/Button/Button';
+import {routes} from '../../../constants/routes';
+import {CardGrid} from './styles';
+import TitleWrapper from '../../atoms/TitleWrapper/TitleWrapper';
+import Heading from '../../atoms/Heading/Heading';
+import Section from '../../atoms/Section/Section';
 
-type Props<T extends CardType> = {
+type Props<T extends CardSectionType> = {
 	cardType: T;
 	title: string;
 	subtitle?: string;
-	headerBtn?: string;
-	deleteConfirmMessage: string;
-	CardGridWrapper: React.ComponentType<{children: React.ReactNode}>;
-	CardComponent: React.FC<{
-		card: CardDataFromType<T>;
-		index: number;
-	}>;
+	buttonText?: string;
 };
 
-export function CardSectionRenderer<T extends CardType>(config: Props<T>) {
+export function CardSectionRenderer<T extends CardSectionType>({cardType, title, subtitle, buttonText}: Props<T>) {
 	const {cards, loading, error} = useCardContext();
-	const navigate = useNavigate();
-	const location = useLocation();
-	const [searchParams] = useSearchParams();
-	const type = searchParams.get('type');
+	const sectionCards: CardMap[T] = cards[cardType];
+	const {handleClickCard, handleEditCard, handleDeleteCard} = useCardLogic(cardType);
 
-	const sectionCards = cards[config.cardType] as CardDataFromType<T>[];
-	const {CardGridWrapper: Grid, CardComponent} = config;
+	const [searchParams, setSearchParams] = useSearchParams();
+	const isContentPage = searchParams.get('type') === cardType;
 
-	const openAddModal = () => {
-		const params = new URLSearchParams(location.search);
-		params.set('modal', 'add');
-		params.set('cardType', config.cardType);
-		navigate(`${location.pathname}?${params.toString()}`, {replace: true});
+	const handleAdd = () => {
+		const updatedParams = new URLSearchParams(searchParams);
+		updatedParams.set('modal', 'add');
+		updatedParams.set('cardType', cardType);
+		setSearchParams(updatedParams);
 	};
 
 	return (
 		<Section>
-			<SectionTitle>{config.subtitle}</SectionTitle>
-			<SectionTitleWrapper>
-				<SectionHeading>{config.title}</SectionHeading>
-				<ButtonWrapper>
-					{!type && config.headerBtn && (
-						<Link to={`/content?type=${config.cardType}`}>
-							<SectionHeadingBTn>{config.headerBtn}</SectionHeadingBTn>
+			{subtitle && <Heading>{subtitle}</Heading>}
+			<TitleWrapper variant="section">
+				<Title>{title}</Title>
+				<div style={{display: 'flex', gap: '10px', alignItems: 'center'}}>
+					{buttonText && !isContentPage && (
+						<Link to={`${routes.content}?type=${cardType}`}>
+							<Button>{buttonText}</Button>
 						</Link>
 					)}
-					<CTAButton onClick={openAddModal}>➕</CTAButton>
-				</ButtonWrapper>
-			</SectionTitleWrapper>
+					<Button variant="cta" onClick={handleAdd}>
+						+
+					</Button>
+				</div>
+			</TitleWrapper>
 
 			{loading && <p>Loading...</p>}
 			{error && <p style={{color: 'red'}}>{error}</p>}
 
-			{!loading && sectionCards.length === 0 && (
-				<p style={{color: '#888', fontStyle: 'italic', marginTop: '20px'}}>No cards available for this section.</p>
-			)}
-
-			{sectionCards.length > 0 && (
-				<Grid>
-					{sectionCards.map((card, index) => (
-						<CardComponent key={index} card={card} index={index} />
-					))}
-				</Grid>
-			)}
+			{!loading && sectionCards.length === 0 && <p style={{color: '#888', fontStyle: 'italic', marginTop: '20px'}}>No cards available.</p>}
+			<CardGrid $variant={variantMap[cardType]}>
+				{sectionCards.map((card, index) => (
+					<Card
+						key={index}
+						card={card}
+						variant={variantMap[cardType]}
+						onClick={() => handleClickCard(index)}
+						onEdit={() => handleEditCard(index)}
+						onDelete={() => handleDeleteCard(index)}
+					/>
+				))}
+			</CardGrid>
 		</Section>
 	);
 }

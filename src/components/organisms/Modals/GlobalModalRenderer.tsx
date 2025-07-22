@@ -1,29 +1,26 @@
-import {useSearchParams, useLocation, useNavigate} from 'react-router-dom';
+import {useSearchParams} from 'react-router-dom';
 import ModalForm from '../ModalForm/ModalForm';
-import {CARD_TYPE} from '../../../constants/cardTypes';
-import type {CardType} from '../../../context/CardContext';
 import Modal from '../../molecules/Modal/Modal';
+import {cardSectionTypes, type CardSectionType} from '../../../validation/card-information';
 
-const isValidCardType = (value: string): value is CardType => Object.values(CARD_TYPE).includes(value as CardType);
+const isValidCardType = (value: string): value is CardSectionType => cardSectionTypes.includes(value as CardSectionType);
 
 const GlobalModalRenderer = () => {
-	const [searchParams] = useSearchParams();
-	const location = useLocation();
-	const navigate = useNavigate();
+	const [searchParams, setSearchParams] = useSearchParams();
 
 	const modal = searchParams.get('modal') as 'add' | 'edit' | null;
 	const rawCardType = searchParams.get('cardType');
 
 	if (!modal || !rawCardType || !isValidCardType(rawCardType)) return null;
 
-	const cardType: CardType = rawCardType;
+	const cardType: CardSectionType = rawCardType;
 
 	const handleClose = () => {
-		const params = new URLSearchParams(location.search);
-		params.delete('modal');
-		params.delete('cardType');
-		params.delete('id');
-		navigate({pathname: location.pathname, search: params.toString()}, {replace: true});
+		const updatedParams = new URLSearchParams(searchParams);
+		updatedParams.delete('modal');
+		updatedParams.delete('cardType');
+		updatedParams.delete('id');
+		setSearchParams(updatedParams);
 	};
 
 	return (

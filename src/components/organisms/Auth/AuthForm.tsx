@@ -1,4 +1,4 @@
-import {FormContainer, FormTitle, StyledForm, Input, Button, ErrorText, SwitchLink} from './AuthStyles';
+import {FormContainer, FormTitle, StyledForm, Input, Button, ErrorText, SwitchLink} from './Auth.styles';
 import {Link, useNavigate} from 'react-router-dom';
 import {useAuthForm} from './AuthForm.logic';
 import type {ZodSchema} from 'zod';

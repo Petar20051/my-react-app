@@ -1,50 +1,47 @@
-import {useState, useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import {useSearchParams} from 'react-router-dom';
-import {useCardContext, type CardType} from '../../../context/CardContext';
-import {schemaMap, type CardDataFromType} from '../../../validation/card-information';
-import {DEFAULT_IMAGE_URL, fieldMap} from '../../../constants/defaults';
+import {useCardContext} from '../../../context/CardContext';
+import {DEFAULT_IMAGE_URL} from '../../../constants/defaults';
+import {CardSchema, type Card, type CardSectionType} from '../../../validation/card-information';
 
-type FieldMap = typeof fieldMap;
-type FieldsFor<T extends CardType> = FieldMap[T];
+type Field = keyof Card;
+type FormData = Record<Field, string>;
 
-type UseModalFormProps<T extends CardType> = {
+type UseModalFormProps = {
 	mode: 'add' | 'edit';
-	cardType: T;
-	fields: FieldsFor<T>;
+	cardType: CardSectionType;
+	fields: Field[];
 	onClose: () => void;
 };
 
-export function useModalForm<T extends CardType>({mode, cardType, fields, onClose}: UseModalFormProps<T>) {
+export function useModalForm({mode, cardType, fields, onClose}: UseModalFormProps) {
 	const [searchParams] = useSearchParams();
 	const {cards, setCards} = useCardContext();
 	const indexParam = searchParams.get('id');
 	const index = indexParam ? parseInt(indexParam, 10) : null;
 
-	const cardArray = cards[cardType] as CardDataFromType<T>[];
-	const setCardArray = setCards[cardType] as (value: CardDataFromType<T>[]) => void;
+	const cardArray = cards[cardType];
+	const setCardArray = (value: Card[]) => setCards(cardType, value);
 
-	const allFields = fields.includes('variant' as FieldsFor<T>[number]) ? fields : ([...fields, 'variant'] as FieldsFor<T>);
-
-	const initialRawData: Partial<CardDataFromType<T>> =
+	const initialRaw: Partial<Card> =
 		mode === 'edit' && index !== null && cardArray[index]
 			? cardArray[index]
-			: (Object.fromEntries(
-					allFields.map((f) => {
-						if (f === 'variant') return [f, 'default'];
-						if (f === 'image') return [f, DEFAULT_IMAGE_URL];
-						return [f, ''];
+			: Object.fromEntries(
+					fields.map((field) => {
+						if (field === 'image') return [field, DEFAULT_IMAGE_URL];
+						return [field, ''];
 					})
-			  ) as Partial<CardDataFromType<T>>);
+			  );
 
-	const initialData: Record<string, string> = Object.fromEntries(
-		allFields.map((field) => {
-			const value = initialRawData?.[field as keyof CardDataFromType<T>];
+	const initialFormData: FormData = Object.fromEntries(
+		fields.map((field) => {
+			const value = initialRaw?.[field];
 			return [field, Array.isArray(value) ? value.join(', ') : value?.toString() ?? ''];
 		})
-	);
+	) as FormData;
 
-	const [formData, setFormData] = useState<Record<string, string>>(initialData);
-	const [errors, setErrors] = useState<Record<string, string>>({});
+	const [formData, setFormData] = useState<FormData>(initialFormData);
+	const [errors, setErrors] = useState<Partial<Record<Field, string>>>({});
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
 		const {name, value} = e.target;
@@ -54,43 +51,42 @@ export function useModalForm<T extends CardType>({mode, cardType, fields, onClos
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
 
-		const transformedFormData: Record<string, any> = {...formData};
+		const transformed: Partial<Card> = {};
 
-		for (const [key, value] of Object.entries(formData)) {
-			if (key === 'topics') {
-				transformedFormData[key] = value
+		for (const field of fields) {
+			const value = formData[field];
+			if (field === 'topics') {
+				transformed[field] = value
 					.split(',')
 					.map((s) => s.trim())
-					.filter((s) => s.length > 0);
-			} else if (key === 'episode') {
-				const num = parseInt(value, 10);
-				transformedFormData[key] = isNaN(num) ? undefined : num;
-			} else if (key === 'date') {
-				const parsedDate = new Date(value);
-				transformedFormData[key] = isNaN(parsedDate.getTime()) ? undefined : parsedDate.toISOString().split('T')[0];
-			} else if (key === 'variant') {
-				transformedFormData[key] = value === 'compact' || value === 'wide' || value === 'reversed' ? value : 'default';
+					.filter(Boolean);
+			} else if (field === 'episode') {
+				transformed[field] = value;
+			} else if (field === 'date') {
+				const date = new Date(value);
+				transformed[field] = isNaN(date.getTime()) ? undefined : date.toISOString().split('T')[0];
+			} else if (field === 'variant') {
+				const allowedVariants = ['default', 'event', 'news', 'podcast', 'solution', 'featured'] as const;
+				transformed[field] = allowedVariants.includes(value as any) ? (value as (typeof allowedVariants)[number]) : 'default';
 			} else {
-				transformedFormData[key] = value;
+				transformed[field] = value;
 			}
 		}
 
-		const schema = schemaMap[cardType];
-		const result = schema.safeParse(transformedFormData);
+		const result = CardSchema.safeParse(transformed);
 
 		if (!result.success) {
-			const fieldErrors = result.error.flatten().fieldErrors;
-			setErrors(Object.fromEntries(Object.entries(fieldErrors).map(([key, value]) => [key, value?.join(', ') ?? ''])));
+			const flattened = result.error.flatten().fieldErrors;
+			setErrors(Object.fromEntries(Object.entries(flattened).map(([k, v]) => [k, v?.join(', ') ?? ''])) as any);
 			return;
 		}
 
-		const validatedCard = result.data as CardDataFromType<T>;
 		const updated = [...cardArray];
 
 		if (mode === 'add') {
-			setCardArray([...updated, validatedCard]);
+			setCardArray([...updated, result.data]);
 		} else if (mode === 'edit' && index !== null) {
-			updated[index] = validatedCard;
+			updated[index] = result.data;
 			setCardArray(updated);
 		}
 

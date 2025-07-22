@@ -1,10 +1,10 @@
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faHome, faCalendar, faNewspaper, faPodcast, faRotateLeft, faRotateBack} from '@fortawesome/free-solid-svg-icons';
 import {Link} from 'react-router-dom';
-import ConfirmDialog from '../../molecules/ConfirmDialog/confirmDialog';
+import ConfirmDialog from '../ConfirmDialog/confirmDialog';
 import {NavItem, NavLink, NavList, SidebarNav, SidebarWrapper} from './sidebar.styles';
 import {useSidebarLogic} from './Sidebar.logic';
-import {CONTENT_TYPES, ROUTES} from '../../../constants/routes';
+import {CONTENT_TYPES, routes} from '../../../constants/routes';
 
 export type SidebarProps = {
 	isOpen: boolean;
@@ -24,7 +24,7 @@ const Sidebar: React.FC<SidebarProps> = ({isOpen, closeSidebar, ignoreRef}) => {
 			<SidebarNav>
 				<NavList>
 					<NavItem>
-						<Link to={ROUTES.HOME} onClick={closeSidebar}>
+						<Link to={routes.home} onClick={closeSidebar}>
 							<NavLink>
 								<FontAwesomeIcon icon={faHome} />
 								Home
@@ -32,7 +32,7 @@ const Sidebar: React.FC<SidebarProps> = ({isOpen, closeSidebar, ignoreRef}) => {
 						</Link>
 					</NavItem>
 					<NavItem>
-						<Link to={`${ROUTES.CONTENT}?type=${CONTENT_TYPES.EVENTS}`} onClick={closeSidebar}>
+						<Link to={`${routes.content}?type=${CONTENT_TYPES.events}`} onClick={closeSidebar}>
 							<NavLink>
 								<FontAwesomeIcon icon={faCalendar} />
 								Events
@@ -40,7 +40,7 @@ const Sidebar: React.FC<SidebarProps> = ({isOpen, closeSidebar, ignoreRef}) => {
 						</Link>
 					</NavItem>
 					<NavItem>
-						<Link to={`${ROUTES.CONTENT}?type=${CONTENT_TYPES.NEWS}`} onClick={closeSidebar}>
+						<Link to={`${routes.content}?type=${CONTENT_TYPES.news}`} onClick={closeSidebar}>
 							<NavLink>
 								<FontAwesomeIcon icon={faNewspaper} />
 								News
@@ -48,7 +48,7 @@ const Sidebar: React.FC<SidebarProps> = ({isOpen, closeSidebar, ignoreRef}) => {
 						</Link>
 					</NavItem>
 					<NavItem>
-						<Link to={`${ROUTES.CONTENT}?type=${CONTENT_TYPES.PODCASTS}`} onClick={closeSidebar}>
+						<Link to={`${routes.content}?type=${CONTENT_TYPES.podcasts}`} onClick={closeSidebar}>
 							<NavLink>
 								<FontAwesomeIcon icon={faPodcast} />
 								Podcasts

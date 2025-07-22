@@ -1,10 +1,10 @@
-import type {CardType} from '../context/CardContext';
+import type {CardSectionType} from '../validation/card-information';
 
 export const DEFAULT_IMAGE_URL = '/assets/grassN.jpeg';
 
 export const DEFAULT_DELETE_CONFIRM_MESSAGE = 'Are you sure you want to delete this item?';
 
-export const fieldMap: Record<CardType, string[]> = {
+export const fieldMap: Record<CardSectionType, string[]> = {
 	events: ['title', 'description', 'date', 'image', 'linkText', 'variant'],
 	solutions: ['label', 'title', 'info', 'description', 'image', 'linkText', 'variant'],
 	news: ['title', 'description', 'category', 'date', 'image', 'linkText', 'variant'],

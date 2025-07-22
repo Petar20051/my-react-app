@@ -1,15 +1,16 @@
 import {BrowserRouter, Routes, Route, Navigate} from 'react-router-dom';
 import {AuthProvider, useAuth} from './context/AuthContext';
-import Layout from './components/pages/MainPage/MainPageLayout';
-import NotFound from './components/pages/NotFoundPage/NotFound';
 import './styles/global.css';
-import LoginForm from './components/pages/Auth/LoginForm';
-import SignupForm from './components/pages/Auth/SignUpForm';
-import MainContent from './components/layouts/MainContent/MainContent';
-import SingleContentPage from './components/layouts/SIngleSectionPage/SingleSectionPage';
-import SingleCardPage from './components/layouts/SingleCardPage/singleCardPage';
 import {CardProvider} from './context/CardContext';
-import {ROUTES} from './constants/routes';
+import {routes} from './constants/routes';
+import LoginForm from './pages/Auth/LoginForm';
+import SignupForm from './pages/Auth/SignUpForm';
+import Layout from './pages/MainPage/MainPageLayout';
+
+import NotFound from './pages/NotFoundPage/NotFound';
+import MainContent from './layouts/MainContent/MainContent';
+import SingleContentPage from './layouts/SIngleSectionPage/SingleSectionPage';
+import SingleCardPage from './layouts/SingleCardPage/singleCardPage';
 
 function AppRoutes() {
 	const {user, authReady} = useAuth();
@@ -19,9 +20,9 @@ function AppRoutes() {
 	if (!user) {
 		return (
 			<Routes>
-				<Route path={ROUTES.LOGIN} element={<LoginForm />} />
-				<Route path={ROUTES.SIGNUP} element={<SignupForm />} />
-				<Route path={ROUTES.NOT_FOUND} element={<Navigate to={ROUTES.LOGIN} replace />} />
+				<Route path={routes.login} element={<LoginForm />} />
+				<Route path={routes.signup} element={<SignupForm />} />
+				<Route path={routes.not_found} element={<Navigate to={routes.login} replace />} />
 			</Routes>
 		);
 	}
@@ -29,12 +30,12 @@ function AppRoutes() {
 	return (
 		<CardProvider>
 			<Routes>
-				<Route path={ROUTES.HOME} element={<Layout />}>
+				<Route path={routes.home} element={<Layout />}>
 					<Route index element={<MainContent />} />
-					<Route path={ROUTES.CONTENT.slice(1)} element={<SingleContentPage />} />
-					<Route path={ROUTES.SINGLE.slice(1)} element={<SingleCardPage />} />
+					<Route path={routes.content.slice(1)} element={<SingleContentPage />} />
+					<Route path={routes.single.slice(1)} element={<SingleCardPage />} />;
 				</Route>
-				<Route path={ROUTES.NOT_FOUND} element={<NotFound />} />
+				<Route path={routes.not_found} element={<NotFound />} />
 			</Routes>
 		</CardProvider>
 	);

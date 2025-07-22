@@ -1,14 +1,14 @@
-export const ROUTES = {
-	HOME: '/',
-	LOGIN: '/login',
-	SIGNUP: '/signup',
-	CONTENT: '/content',
-	SINGLE: '/single',
-	NOT_FOUND: '*',
+export const routes = {
+	home: '/',
+	login: '/login',
+	signup: '/signup',
+	content: '/content',
+	single: '/single',
+	not_found: '*',
 };
 
 export const CONTENT_TYPES = {
-	EVENTS: 'events',
-	NEWS: 'news',
-	PODCASTS: 'podcasts',
+	events: 'events',
+	news: 'news',
+	podcasts: 'podcasts',
 };
