@@ -1,8 +1,8 @@
 import {Outlet} from 'react-router-dom';
 import {useRef, useState} from 'react';
-import {LayoutContainer, LayoutInner, MainContainer} from './MainPageLayout.styles';
-import Navigation from '../../components/organisms/Navigation/navigation';
-import Sidebar from '../../components/organisms/Sidebar/sidebar';
+import {LayoutContainer, LayoutInner, MainContainer} from './MainPage.styles';
+import Navigation from '../../components/organisms/Navigation/Navigation';
+import Sidebar from '../../components/organisms/Sidebar/Sidebar';
 import GlobalModalRenderer from '../../components/organisms/Modals/GlobalModalRenderer';
 
 const Layout = () => {

@@ -5,9 +5,9 @@ import {CardProvider} from './context/CardContext';
 import {routes} from './constants/routes';
 import LoginForm from './pages/Auth/LoginForm';
 import SignupForm from './pages/Auth/SignUpForm';
-import Layout from './pages/MainPage/MainPageLayout';
+import Layout from './pages/MainPage/MainPage';
 
-import NotFound from './pages/NotFoundPage/NotFound';
+import NotFound from './pages/NotFoundPage/NotFoundPage';
 import MainContent from './layouts/MainContent/MainContent';
 import SingleContentPage from './layouts/SIngleSectionPage/SingleSectionPage';
 import SingleCardPage from './layouts/SingleCardPage/singleCardPage';

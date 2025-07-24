@@ -7,7 +7,7 @@ export const routes = {
 	not_found: '*',
 };
 
-export const CONTENT_TYPES = {
+export const content_types = {
 	events: 'events',
 	news: 'news',
 	podcasts: 'podcasts',

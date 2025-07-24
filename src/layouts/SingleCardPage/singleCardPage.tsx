@@ -1,7 +1,7 @@
 import {useNavigate, useSearchParams} from 'react-router-dom';
 
-import {ContentWrapper, PageWrapper} from '../SIngleSectionPage/singleSectionPage.styles';
-import type {CardSectionType} from '../../validation/card-information';
+import {ContentWrapper, PageWrapper} from '../SIngleSectionPage/SingleSectionPage.styles';
+import type {CardSectionType} from '../../components/organisms/Cards/Card.static';
 import {useCardContext} from '../../context/CardContext';
 import Button from '../../components/atoms/Button/Button';
 import Card from '../../components/organisms/Cards/Card';

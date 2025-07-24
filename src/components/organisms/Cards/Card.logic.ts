@@ -1,6 +1,6 @@
 import {useNavigate, useSearchParams} from 'react-router-dom';
 import {useCardContext} from '../../../context/CardContext';
-import type {CardMap, CardSectionType} from '../../../validation/card-information';
+import type {CardMap, CardSectionType} from './Card.static';
 
 export function useCardLogic(cardType: CardSectionType) {
 	const navigate = useNavigate();

@@ -1,11 +1,10 @@
 import {useSearchParams} from 'react-router-dom';
 import type {JSX} from 'react';
-
-import {ContentWrapper, PageWrapper} from './singleSectionPage.styles';
+import {ContentWrapper, PageWrapper, StyledErrorMessage} from './SingleSectionPage.styles';
 import EventsSection from '../../components/organisms/Sections/EventSection/EventsSection';
 import NewsSection from '../../components/organisms/Sections/NewsSection/NewsSection';
 import PodcastsSection from '../../components/organisms/Sections/PodcastSection/PodcastsSection';
-import ContentHeader from '../../components/organisms/SingleSectionHeader/ContentHeader';
+import ContentHeader from '../../components/molecules/SingleSectionHeader/SingleSectionHeader';
 
 const SingleContentPage = () => {
 	const [searchParams] = useSearchParams();
@@ -17,7 +16,7 @@ const SingleContentPage = () => {
 		podcasts: <PodcastsSection />,
 	};
 
-	const selectedSection = sectionMap[type ?? ''] || <p style={{padding: '40px', color: 'red'}}>Invalid or missing content type.</p>;
+	const selectedSection = sectionMap[type ?? ''] || <StyledErrorMessage>Invalid or missing content type.</StyledErrorMessage>;
 
 	return (
 		<PageWrapper>

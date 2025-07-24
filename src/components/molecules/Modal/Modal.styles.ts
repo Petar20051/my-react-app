@@ -11,18 +11,27 @@ export const ModalOverlay = styled.div`
 	align-items: center;
 	justify-content: center;
 	z-index: 10000;
+	padding: 20px;
+	overflow-y: auto;
 `;
 
 export const ModalFormWrapper = styled.div`
 	background: #ffffff;
 	border-radius: 10px;
-	padding: 40px;
-	width: 100%;
-	max-width: 500px;
+	padding: 30px 24px;
+	max-width: 600px;
+	max-height: 90vh;
 	box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
+	overflow-y: auto;
+	box-sizing: border-box;
+
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+
 	@media (max-width: 600px) {
-		max-width: 80%;
-		margin: 0 auto;
+		max-width: 95%;
+		padding: 20px;
 	}
 `;
 
@@ -47,7 +56,7 @@ export const ButtonGroup = styled.div`
 `;
 
 export const LongInput = styled.textarea`
-	min-height: 100px;
+	min-height: 40px;
 	padding: 10px;
 	font-size: 14px;
 	border: 1px solid #ccc;

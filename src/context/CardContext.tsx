@@ -1,7 +1,7 @@
 import {createContext, useContext, useEffect, useState, type PropsWithChildren} from 'react';
 import {useFetchAndValidateJSON} from '../hooks/useFetch';
 import {DATA_PATHS} from '../constants/dataPaths';
-import {CardMapSchema, type CardMap, type CardSectionType} from '../validation/card-information';
+import {CardMapSchema, type CardMap, type CardSectionType} from '../components/organisms/Cards/Card.static';
 
 export type CardContextType = {
 	cards: CardMap;

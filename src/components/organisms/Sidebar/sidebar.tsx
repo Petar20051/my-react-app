@@ -1,10 +1,9 @@
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faHome, faCalendar, faNewspaper, faPodcast, faRotateLeft, faRotateBack} from '@fortawesome/free-solid-svg-icons';
 import {Link} from 'react-router-dom';
-import ConfirmDialog from '../ConfirmDialog/confirmDialog';
-import {NavItem, NavLink, NavList, SidebarNav, SidebarWrapper} from './sidebar.styles';
+import {NavItem, NavLink, NavList, SidebarNav, SidebarWrapper} from './Sidebar.styles';
 import {useSidebarLogic} from './Sidebar.logic';
-import {CONTENT_TYPES, routes} from '../../../constants/routes';
+import {content_types, routes} from '../../../constants/routes';
 
 export type SidebarProps = {
 	isOpen: boolean;
@@ -13,7 +12,7 @@ export type SidebarProps = {
 };
 
 const Sidebar: React.FC<SidebarProps> = ({isOpen, closeSidebar, ignoreRef}) => {
-	const {sidebarRef, showLogoutConfirm, handleLogout, confirmLogout, cancelLogout} = useSidebarLogic({
+	const {sidebarRef, handleLogout} = useSidebarLogic({
 		isOpen,
 		closeSidebar,
 		ignoreRef,
@@ -32,7 +31,7 @@ const Sidebar: React.FC<SidebarProps> = ({isOpen, closeSidebar, ignoreRef}) => {
 						</Link>
 					</NavItem>
 					<NavItem>
-						<Link to={`${routes.content}?type=${CONTENT_TYPES.events}`} onClick={closeSidebar}>
+						<Link to={`${routes.content}?type=${content_types.events}`} onClick={closeSidebar}>
 							<NavLink>
 								<FontAwesomeIcon icon={faCalendar} />
 								Events
@@ -40,7 +39,7 @@ const Sidebar: React.FC<SidebarProps> = ({isOpen, closeSidebar, ignoreRef}) => {
 						</Link>
 					</NavItem>
 					<NavItem>
-						<Link to={`${routes.content}?type=${CONTENT_TYPES.news}`} onClick={closeSidebar}>
+						<Link to={`${routes.content}?type=${content_types.news}`} onClick={closeSidebar}>
 							<NavLink>
 								<FontAwesomeIcon icon={faNewspaper} />
 								News
@@ -48,7 +47,7 @@ const Sidebar: React.FC<SidebarProps> = ({isOpen, closeSidebar, ignoreRef}) => {
 						</Link>
 					</NavItem>
 					<NavItem>
-						<Link to={`${routes.content}?type=${CONTENT_TYPES.podcasts}`} onClick={closeSidebar}>
+						<Link to={`${routes.content}?type=${content_types.podcasts}`} onClick={closeSidebar}>
 							<NavLink>
 								<FontAwesomeIcon icon={faPodcast} />
 								Podcasts
@@ -76,13 +75,6 @@ const Sidebar: React.FC<SidebarProps> = ({isOpen, closeSidebar, ignoreRef}) => {
 					Restart the tour
 				</NavLink>
 			</Link>
-
-			<ConfirmDialog
-				message="Are you sure you want to log out?"
-				visible={showLogoutConfirm}
-				onConfirm={confirmLogout}
-				onCancel={cancelLogout}
-			/>
 		</SidebarWrapper>
 	);
 };

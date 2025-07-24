@@ -1,10 +1,10 @@
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {useSearchParams} from 'react-router-dom';
-import {HeaderWrapper} from './contentHeader.styles';
 import {faQuestionCircle} from '@fortawesome/free-solid-svg-icons';
-import {descMap, iconMap, titleMap} from './constants';
+import {descMap, iconMap, titleMap} from './SingleSectionHeader.static';
 import Title from '../../atoms/Title/Title';
 import Paragraph from '../../atoms/Paragraph/Paragraph';
+import {HeaderWrapper} from './SingleSectionHeader.styles';
 
 const ContentHeader = () => {
 	const [searchParams] = useSearchParams();
@@ -21,7 +21,7 @@ const ContentHeader = () => {
 					<FontAwesomeIcon icon={icon} />
 					{title}
 				</Title>
-				<Paragraph variant="description">{desc}</Paragraph>
+				<Paragraph variant="message">{desc}</Paragraph>
 			</div>
 		</HeaderWrapper>
 	);

@@ -1,7 +1,6 @@
 import {AuthForm} from '../../components/organisms/Auth/AuthForm';
-import {signupFormConfig} from '../../constants/authFormConfig';
 import {useAuth} from '../../context/AuthContext';
-import {SignUpSchema, type SignUpData} from '../../validation/Auth';
+import {signupFormConfig, SignUpSchema, type SignUpData} from '../../components/organisms/Auth/Auth.static';
 
 const SignupForm = () => {
 	const {signup} = useAuth();

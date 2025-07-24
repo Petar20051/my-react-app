@@ -11,3 +11,14 @@ export const NotFoundImage = styled.div`
 	background-position: center;
 	border-radius: 8px;
 `;
+
+export const NotFoundContainer = styled.div`
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	padding: 40px 20px;
+	gap: 20px;
+`;

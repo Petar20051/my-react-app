@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, ButtonContainer, Message, Modal, Overlay} from './confirmDialog.styles';
+import {Button, ButtonContainer, Message} from './ConfirmDialog.styles';
 
 type ConfirmDialogProps = {
 	message: string;
@@ -12,15 +12,13 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({message, visible, onConfir
 	if (!visible) return null;
 
 	return (
-		<Overlay>
-			<Modal>
-				<Message>{message}</Message>
-				<ButtonContainer>
-					<Button onClick={onConfirm}>Yes</Button>
-					<Button onClick={onCancel}>Cancel</Button>
-				</ButtonContainer>
-			</Modal>
-		</Overlay>
+		<>
+			<Message>{message}</Message>
+			<ButtonContainer>
+				<Button onClick={onConfirm}>Yes</Button>
+				<Button onClick={onCancel}>Cancel</Button>
+			</ButtonContainer>
+		</>
 	);
 };
 

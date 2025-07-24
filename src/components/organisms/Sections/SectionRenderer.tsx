@@ -1,12 +1,12 @@
 import {useCardContext} from '../../../context/CardContext';
-import {type CardSectionType, type CardMap, variantMap} from '../../../validation/card-information';
+import {type CardSectionType, type CardMap, variantMap} from '../Cards/Card.static';
 import Card from '../Cards/Card';
 import {useCardLogic} from '../Cards/Card.logic';
 import {Link, useSearchParams} from 'react-router-dom';
 import Title from '../../atoms/Title/Title';
 import Button from '../../atoms/Button/Button';
 import {routes} from '../../../constants/routes';
-import {CardGrid} from './styles';
+import {CardGrid} from './Section.styles';
 import TitleWrapper from '../../atoms/TitleWrapper/TitleWrapper';
 import Heading from '../../atoms/Heading/Heading';
 import Section from '../../atoms/Section/Section';

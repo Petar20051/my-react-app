@@ -1,24 +1,24 @@
-import {useCallback, useEffect, useRef, useState} from 'react';
+import {useCallback, useEffect, useRef} from 'react';
 import {useAuth} from '../../../context/AuthContext';
-import type {SidebarProps} from './sidebar';
+import {useSearchParams} from 'react-router-dom';
+import type {SidebarProps} from './Sidebar';
 
 export function useSidebarLogic({isOpen, closeSidebar, ignoreRef}: SidebarProps) {
 	const {logout} = useAuth();
 	const sidebarRef = useRef<HTMLDivElement | null>(null);
-	const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
+	const [searchParams, setSearchParams] = useSearchParams();
 
+	// Trigger global logout modal
 	const handleLogout = (e: React.MouseEvent) => {
 		e.preventDefault();
-		setShowLogoutConfirm(true);
+		const updated = new URLSearchParams(searchParams);
+		updated.set('modal', 'confirmLogout');
+		setSearchParams(updated);
 	};
 
+	// Final logout action, to be called by ConfirmDialog in ModalContentRouter
 	const confirmLogout = () => {
-		setShowLogoutConfirm(false);
 		logout();
-	};
-
-	const cancelLogout = () => {
-		setShowLogoutConfirm(false);
 	};
 
 	const handleClickOutside = useCallback(
@@ -44,9 +44,7 @@ export function useSidebarLogic({isOpen, closeSidebar, ignoreRef}: SidebarProps)
 
 	return {
 		sidebarRef,
-		showLogoutConfirm,
 		handleLogout,
 		confirmLogout,
-		cancelLogout,
 	};
 }

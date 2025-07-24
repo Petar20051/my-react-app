@@ -1,5 +1,5 @@
 import React from 'react';
-import {ModalFormWrapper, ModalOverlay} from '../../organisms/Modals/Modal.styles';
+import {ModalFormWrapper, ModalOverlay} from './Modal.styles';
 
 type ModalProps = {
 	children: React.ReactNode;

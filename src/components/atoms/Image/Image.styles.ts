@@ -4,7 +4,7 @@ export type Variant = 'default' | 'event' | 'news' | 'podcast' | 'solution' | 'f
 
 const variantHeights: Record<Variant, string> = {
 	default: '120px',
-	event: '225px',
+	event: '240px',
 	news: '200px',
 	podcast: '120px',
 	solution: '120px',

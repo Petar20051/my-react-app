@@ -9,17 +9,17 @@ const cardVariantStyles: Record<Variant, {minHeight?: string; width?: string; ma
 		marginBottom: '20px',
 	},
 	event: {
-		minHeight: '470px',
+		minHeight: '485px',
 		width: '100%',
 		marginBottom: '20px',
 	},
 	news: {
-		minHeight: 'auto',
+		minHeight: '100%',
 		width: '300px',
 		marginBottom: '20px',
 	},
 	podcast: {
-		minHeight: '230px',
+		minHeight: 'auto',
 		width: '100%',
 		marginBottom: '20px',
 	},

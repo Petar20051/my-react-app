@@ -1,5 +1,5 @@
 import Paragraph from '../../atoms/Paragraph/Paragraph';
-import {ContentWrapper} from './CardContentBlock.styles';
+import {ContentWrapper} from './ContentBlock.styles';
 
 type Props = {
 	description?: string;

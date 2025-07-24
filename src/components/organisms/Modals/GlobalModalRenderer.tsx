@@ -1,19 +1,10 @@
 import {useSearchParams} from 'react-router-dom';
-import ModalForm from '../ModalForm/ModalForm';
 import Modal from '../../molecules/Modal/Modal';
-import {cardSectionTypes, type CardSectionType} from '../../../validation/card-information';
-
-const isValidCardType = (value: string): value is CardSectionType => cardSectionTypes.includes(value as CardSectionType);
+import ModalContentRouter from './ModalContentRouter';
 
 const GlobalModalRenderer = () => {
 	const [searchParams, setSearchParams] = useSearchParams();
-
-	const modal = searchParams.get('modal') as 'add' | 'edit' | null;
-	const rawCardType = searchParams.get('cardType');
-
-	if (!modal || !rawCardType || !isValidCardType(rawCardType)) return null;
-
-	const cardType: CardSectionType = rawCardType;
+	const modal = searchParams.get('modal');
 
 	const handleClose = () => {
 		const updatedParams = new URLSearchParams(searchParams);
@@ -24,9 +15,13 @@ const GlobalModalRenderer = () => {
 	};
 
 	return (
-		<Modal>
-			<ModalForm mode={modal} cardType={cardType} onClose={handleClose} />
-		</Modal>
+		<>
+			{modal && (
+				<Modal>
+					<ModalContentRouter onClose={handleClose} />
+				</Modal>
+			)}
+		</>
 	);
 };
 

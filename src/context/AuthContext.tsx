@@ -1,7 +1,6 @@
 import {createContext, useContext, useEffect, useState} from 'react';
 import {getAuthUser, logOut, saveAuthUser, saveUser} from '../utils/authStorage';
-import type {User} from '../types/auth';
-import type {LoginData, SignUpData} from '../validation/Auth';
+import type {LoginData, SignUpData, User} from '../components/organisms/Auth/Auth.static';
 
 type AuthContextType = {
 	user: User | null;

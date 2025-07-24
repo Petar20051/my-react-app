@@ -1,5 +1,5 @@
 import Button from '../../atoms/Button/Button';
-import {CardFooter} from './CardFooterLink.styles';
+import {CardFooter} from './CardFooter.styles';
 
 type Props = {
 	linkText?: string;

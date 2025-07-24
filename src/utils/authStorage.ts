@@ -1,4 +1,4 @@
-import type {User} from '../types/auth';
+import type {User} from '../components/organisms/Auth/Auth.static';
 
 const USERS_KEY = 'users';
 const AUTH_KEY = 'authUser';

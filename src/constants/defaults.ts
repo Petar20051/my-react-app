@@ -1,15 +1,15 @@
-import type {CardSectionType} from '../validation/card-information';
+import type {CardSectionType} from '../components/organisms/Cards/Card.static';
 
 export const DEFAULT_IMAGE_URL = '/assets/grassN.jpeg';
 
 export const DEFAULT_DELETE_CONFIRM_MESSAGE = 'Are you sure you want to delete this item?';
 
 export const fieldMap: Record<CardSectionType, string[]> = {
-	events: ['title', 'description', 'date', 'image', 'linkText', 'variant'],
-	solutions: ['label', 'title', 'info', 'description', 'image', 'linkText', 'variant'],
-	news: ['title', 'description', 'category', 'date', 'image', 'linkText', 'variant'],
-	featured: ['label', 'title', 'tag', 'info', 'description', 'topics', 'image', 'linkText', 'variant'],
-	podcasts: ['title', 'description', 'date', 'episode', 'image', 'linkText', 'variant'],
+	events: ['title', 'description', 'date', 'image', 'linkText'],
+	solutions: ['label', 'title', 'info', 'description', 'image', 'linkText'],
+	news: ['title', 'description', 'category', 'date', 'image', 'linkText'],
+	featured: ['label', 'title', 'tag', 'info', 'description', 'topics', 'image', 'linkText'],
+	podcasts: ['title', 'description', 'date', 'episode', 'image', 'linkText'],
 } as const;
 
 export const FIELD_MAX_LENGTHS = [

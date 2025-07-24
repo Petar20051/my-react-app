@@ -12,7 +12,7 @@ import {
 	NavigationIcons,
 	NavigationWrapper,
 	RightSection,
-} from './navigation.styles';
+} from './Navigation.styles';
 
 type NavigationProps = {
 	toggleSidebar: () => void;

@@ -2,7 +2,7 @@ import {useEffect, useState} from 'react';
 import {useSearchParams} from 'react-router-dom';
 import {useCardContext} from '../../../context/CardContext';
 import {DEFAULT_IMAGE_URL} from '../../../constants/defaults';
-import {CardSchema, type Card, type CardSectionType} from '../../../validation/card-information';
+import {CardSchema, type Card, type CardSectionType} from '../Cards/Card.static';
 
 type Field = keyof Card;
 type FormData = Record<Field, string>;
