@@ -1,44 +1,52 @@
 import styled from 'styled-components';
 
-export type Variant = 'default' | 'event' | 'news' | 'podcast' | 'solution' | 'featured';
+export type Variant = 'default' | 'event' | 'news' | 'podcast' | 'solution' | 'featured' | 'preview';
+export type SizeVariant = 'normal' | 'compact' | 'wide';
 
-const cardVariantStyles: Record<Variant, {minHeight?: string; width?: string; marginBottom?: string}> = {
+const cardVariantStyles: Record<Variant, {minHeight?: string; marginBottom?: string}> = {
 	default: {
 		minHeight: 'auto',
-		width: '100%',
 		marginBottom: '20px',
 	},
 	event: {
-		minHeight: '485px',
-		width: '100%',
+		minHeight: '100%',
 		marginBottom: '20px',
 	},
 	news: {
 		minHeight: '100%',
-		width: '300px',
 		marginBottom: '20px',
 	},
 	podcast: {
-		minHeight: 'auto',
-		width: '100%',
+		minHeight: '232.5px',
 		marginBottom: '20px',
 	},
 	solution: {
 		minHeight: '400px',
-		width: '100%',
 		marginBottom: '0',
+	},
+	preview: {
+		minHeight: 'auto',
+		marginBottom: '20px',
 	},
 	featured: {
 		minHeight: 'auto',
-		width: '100%',
 		marginBottom: '20px',
 	},
 };
 
-export const CardContainer = styled.article<{$variant: Variant}>`
+const sizeVariantStyles: Record<SizeVariant, string> = {
+	normal: '100%',
+	compact: '200px',
+	wide: '600px',
+};
+
+export const CardContainer = styled.article<{
+	$variant: Variant;
+	$sizeVariant?: SizeVariant;
+}>`
 	display: flex;
 	flex-direction: column;
-	width: ${({$variant}) => cardVariantStyles[$variant].width};
+	width: ${({$sizeVariant = 'normal'}) => sizeVariantStyles[$sizeVariant]};
 	min-height: ${({$variant}) => cardVariantStyles[$variant].minHeight};
 	border-radius: 10px;
 	border: 1px solid rgb(225, 222, 222);
@@ -49,9 +57,9 @@ export const CardContainer = styled.article<{$variant: Variant}>`
 	${({$variant}) =>
 		$variant === 'news' &&
 		`
-			max-width: 1000px;
+			width: 300px;
 
-			@media (max-width: 1370px) {
+			@media (max-width: 1272px) {
 				width: 47%;
 			}
 			@media (max-width: 670px) {

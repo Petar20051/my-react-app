@@ -3,9 +3,15 @@ import {useSearchParams} from 'react-router-dom';
 import {useCardContext} from '../../../context/CardContext';
 import {DEFAULT_IMAGE_URL} from '../../../constants/defaults';
 import {CardSchema, type Card, type CardSectionType} from '../Cards/Card.static';
+import {fieldMap} from '../../../constants/defaults';
 
-type Field = keyof Card;
-type FormData = Record<Field, string>;
+type FieldMap = typeof fieldMap;
+type Field = FieldMap[CardSectionType][number];
+
+type FormData = Record<Field, string> & {
+	layout: 'normal' | 'compact' | 'wide';
+	orientation: 'vertical' | 'horizontal' | 'reversed';
+};
 
 type UseModalFormProps = {
 	mode: 'add' | 'edit';
@@ -26,52 +32,68 @@ export function useModalForm({mode, cardType, fields, onClose}: UseModalFormProp
 	const initialRaw: Partial<Card> =
 		mode === 'edit' && index !== null && cardArray[index]
 			? cardArray[index]
-			: Object.fromEntries(
+			: (Object.fromEntries(
 					fields.map((field) => {
 						if (field === 'image') return [field, DEFAULT_IMAGE_URL];
 						return [field, ''];
 					})
-			  );
+			  ) as Partial<Card>);
 
-	const initialFormData: FormData = Object.fromEntries(
-		fields.map((field) => {
-			const value = initialRaw?.[field];
-			return [field, Array.isArray(value) ? value.join(', ') : value?.toString() ?? ''];
-		})
-	) as FormData;
+	const initialFormData: FormData = {
+		...fields.reduce((acc, field) => {
+			const rawValue = initialRaw?.[field as keyof Card];
+
+			acc[field] = Array.isArray(rawValue) ? rawValue.join(', ') : rawValue?.toString() ?? '';
+
+			return acc;
+		}, {} as Record<Field, string>),
+
+		layout: (initialRaw.layout as FormData['layout']) ?? (cardType === 'podcasts' ? 'compact' : 'normal'),
+		orientation: (initialRaw.orientation as FormData['orientation']) ?? (cardType === 'featured' ? 'horizontal' : 'vertical'),
+	};
 
 	const [formData, setFormData] = useState<FormData>(initialFormData);
 	const [errors, setErrors] = useState<Partial<Record<Field, string>>>({});
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
 		const {name, value} = e.target;
-		setFormData((prev) => ({...prev, [name]: value}));
+		setFormData((prev) => ({...prev, [name as Field]: value}));
 	};
 
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
 
-		const transformed: Partial<Card> = {};
+		const transformed: Partial<Card> & {
+			layout: 'normal' | 'compact' | 'wide';
+			orientation: 'vertical' | 'horizontal' | 'reversed';
+		} = {
+			layout: formData.layout,
+			orientation: formData.orientation,
+		};
 
 		for (const field of fields) {
 			const value = formData[field];
-			if (field === 'topics') {
-				transformed[field] = value
-					.split(',')
-					.map((s) => s.trim())
-					.filter(Boolean);
-			} else if (field === 'episode') {
-				transformed[field] = value;
-			} else if (field === 'date') {
-				const date = new Date(value);
-				transformed[field] = isNaN(date.getTime()) ? undefined : date.toISOString().split('T')[0];
-			} else if (field === 'variant') {
-				const allowedVariants = ['default', 'event', 'news', 'podcast', 'solution', 'featured'] as const;
-				transformed[field] = allowedVariants.includes(value as any) ? (value as (typeof allowedVariants)[number]) : 'default';
-			} else {
-				transformed[field] = value;
+
+			switch (field) {
+				case 'topics':
+					(transformed as any)[field] = value
+						.split(',')
+						.map((s) => s.trim())
+						.filter(Boolean);
+					break;
+				case 'date': {
+					const date = new Date(value);
+					(transformed as any)[field] = isNaN(date.getTime()) ? undefined : date.toISOString().split('T')[0];
+					break;
+				}
+				default:
+					(transformed as any)[field] = value;
 			}
 		}
+
+		const rawVariant = cardType.slice(0, -1);
+		const allowedVariants = ['default', 'event', 'news', 'podcast', 'solution', 'featured'] as const;
+		(transformed as any).variant = allowedVariants.includes(rawVariant as any) ? (rawVariant as Card['variant']) : 'default';
 
 		const result = CardSchema.safeParse(transformed);
 

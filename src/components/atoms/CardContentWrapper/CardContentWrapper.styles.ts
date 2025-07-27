@@ -1,9 +1,11 @@
 import styled from 'styled-components';
 
-export type Variant = 'default' | 'event' | 'news' | 'podcast' | 'solution' | 'featured' | 'featuredReverse';
+export type Variant = 'default' | 'event' | 'news' | 'podcast' | 'solution' | 'featured' | 'preview';
+export type LayoutVariant = 'vertical' | 'horizontal' | 'reversed';
 
 interface StyledCardContentProps {
 	$variant: Variant;
+	$layout?: LayoutVariant;
 }
 
 export const StyledCardContent = styled.div<StyledCardContentProps>`
@@ -11,31 +13,21 @@ export const StyledCardContent = styled.div<StyledCardContentProps>`
 	display: flex;
 	flex-direction: column;
 
-	padding: ${({$variant}) => {
-		switch ($variant) {
-			case 'podcast':
-			case 'featuredReverse':
-				return '0';
-			case 'featured':
-				return '16px';
-			default:
-				return '20px';
-		}
-	}};
-
-	gap: ${({$variant}) => ($variant === 'featured' || 'podcast' ? '3px' : '20px')};
+	padding: ${({$variant}) => (['podcast', 'featured', 'preview'].includes($variant) ? '16px' : '20px')};
+	gap: ${({$variant}) => (['podcast', 'featured', 'preview'].includes($variant) ? '3px' : '20px')};
 `;
 
-export const FeatureContentWrapper = styled.div`
-	display: grid;
-	grid-template-columns: 30% 70%;
+export const FeatureContentWrapper = styled.div<{$layout?: LayoutVariant}>`
+	display: flex;
+	flex-direction: ${({$layout}) => ($layout === 'reversed' ? 'row-reverse' : $layout === 'horizontal' ? 'row' : 'column')};
+	align-items: stretch;
+	gap: 16px;
 	padding: 16px;
 	min-height: 248px;
+	flex: 1;
 
-	@media (max-width: 450px) {
-		display: flex;
+	@media (max-width: 850px) {
 		flex-direction: column;
-		flex: 1;
 	}
 `;
 
@@ -55,16 +47,24 @@ export const PodcastContentWrapper = styled.div<{hasImage?: boolean}>`
 	}
 `;
 
-export const FeatureContentWrapperReverse = styled.div`
-	display: grid;
-	grid-template-columns: 50% 50%;
-	padding: 16px;
-	gap: 10px;
-	min-height: 200px;
-	flex: 1;
-	@media (max-width: 450px) {
-		display: flex;
-		flex-direction: column;
-		gap: 10px;
+export const ImageWrapper = styled.div`
+	width: 30%;
+	min-width: 30%;
+	max-width: 30%;
+
+	display: flex;
+	align-items: stretch;
+
+	@media (max-width: 768px) {
+		width: 100%;
+		min-width: 100%;
+		max-width: 100%;
 	}
+`;
+
+export const ContentWrapper = styled.div`
+	flex: 1;
+	min-width: 0;
+	display: flex;
+	flex-direction: column;
 `;

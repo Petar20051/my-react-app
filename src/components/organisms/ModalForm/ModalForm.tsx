@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {FormTitle, StyledForm, Input, Button} from '../Auth/Auth.styles';
 import {ButtonGroup, ModalField, LongInput} from '../../molecules/Modal/Modal.styles';
 import {fieldMap} from '../../../constants/defaults';
@@ -22,8 +22,16 @@ const ModalForm = ({mode, cardType, onClose}: ModalFormProps) => {
 		onClose,
 	});
 
-	const [layout, setLayout] = useState<'normal' | 'compact' | 'wide'>('normal');
-	const [orientation, setOrientation] = useState<'vertical' | 'horizontal'>('vertical');
+	const parsedTopics = formData.topics
+		?.split(',')
+		.map((t) => t.trim())
+		.filter(Boolean);
+
+	const previewCard: CardType = {
+		...(formData as CardType),
+		topics: parsedTopics,
+		variant: 'preview',
+	};
 
 	return (
 		<>
@@ -51,7 +59,7 @@ const ModalForm = ({mode, cardType, onClose}: ModalFormProps) => {
 
 				<ModalField>
 					<p>Layout:</p>
-					<select value={layout} onChange={(e) => setLayout(e.target.value as 'normal' | 'compact' | 'wide')}>
+					<select name="layout" value={formData.layout} onChange={handleChange}>
 						<option value="normal">Normal</option>
 						<option value="compact">Compact</option>
 						<option value="wide">Wide</option>
@@ -60,9 +68,10 @@ const ModalForm = ({mode, cardType, onClose}: ModalFormProps) => {
 
 				<ModalField>
 					<p>Orientation:</p>
-					<select value={orientation} onChange={(e) => setOrientation(e.target.value as 'vertical' | 'horizontal')}>
+					<select name="orientation" value={formData.orientation} onChange={handleChange}>
 						<option value="vertical">Vertical</option>
 						<option value="horizontal">Horizontal</option>
+						<option value="reversed">Reversed</option>
 					</select>
 				</ModalField>
 
@@ -77,7 +86,7 @@ const ModalForm = ({mode, cardType, onClose}: ModalFormProps) => {
 			<div style={{marginTop: '30px', paddingTop: '20px', borderTop: '1px solid #ddd'}}>
 				<p style={{fontWeight: 600, marginBottom: '10px'}}>Live Preview:</p>
 				<div style={{maxHeight: '300px', overflowY: 'auto'}}>
-					<Card card={formData as unknown as CardType} layout={layout} orientation={orientation} onClick={() => {}} />
+					<Card card={previewCard} layout={formData.layout} orientation={formData.orientation} variant="preview" />
 				</div>
 			</div>
 		</>

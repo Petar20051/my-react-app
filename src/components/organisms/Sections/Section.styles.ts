@@ -26,6 +26,10 @@ export const CardGrid = styled.div<{$variant: Variant}>`
 			grid-template-columns: repeat(5, 1fr);
 			gap: 20px;
 
+			@media (max-width: 1602px) {
+				grid-template-columns: repeat(4, 1fr);
+			}
+
 			@media (max-width: 1380px) {
 				grid-template-columns: repeat(2, 1fr);
 			}
@@ -53,10 +57,12 @@ export const CardGrid = styled.div<{$variant: Variant}>`
 			}
 		`}
 
-	${({$variant}) =>
+		${({$variant}) =>
 		$variant === 'podcast' &&
 		css`
 			display: flex;
 			flex-direction: column;
+			justify-content: space-between;
+			max-height: 100%;
 		`}
 `;

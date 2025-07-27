@@ -9,14 +9,15 @@ import CardActions from '../../molecules/ActionButtons/ActionButtons';
 import CardContentBlock from '../../molecules/ContentBlock/ContentBlock';
 import CardFooterLink from '../../molecules/CardFooter/CardFooter';
 import HeadingBlock from '../../molecules/HeadingBlock/HeadingBlock';
-import {TopicsWrapper} from './Card.styles';
+import {TopicsWrapper} from '../Sections/FeaturedSection/FeaturedSection.styles';
 
-export type Variant = 'default' | 'event' | 'news' | 'podcast' | 'solution' | 'featured';
+export type Variant = 'default' | 'event' | 'news' | 'podcast' | 'solution' | 'featured' | 'preview';
 export type Layout = 'normal' | 'compact' | 'wide';
-export type Orientation = 'vertical' | 'horizontal';
+export type Orientation = 'vertical' | 'horizontal' | 'reversed';
 
 type Props = {
 	card: CardType;
+	index?: number;
 	variant?: Variant;
 	layout?: Layout;
 	orientation?: Orientation;
@@ -25,20 +26,18 @@ type Props = {
 	onDelete?: () => void;
 };
 
-const mapVariant = (layout: Layout = 'normal', orientation: Orientation = 'vertical'): Variant => {
-	if (layout === 'wide') {
-		return orientation === 'horizontal' ? 'featured' : 'default';
-	}
-	if (layout === 'compact') return 'news';
-	if (layout === 'normal') return orientation === 'horizontal' ? 'podcast' : 'default';
-	return 'default';
-};
+const Card = ({card, index, variant = 'default', layout = 'normal', orientation, onClick, onEdit, onDelete}: Props) => {
+	const hasImage = Boolean(card.image);
 
-const Card = ({card, variant, layout = 'normal', orientation = 'vertical', onClick, onEdit, onDelete}: Props) => {
-	const finalVariant: Variant = variant ?? mapVariant(layout, orientation);
-	const hasImage = !!card.image;
+	const isPreview = variant === 'preview';
+	const finalVariant: Variant = isPreview ? 'preview' : variant;
 
-	const imageNode = hasImage ? <Image variant={finalVariant} src={card.image!} alt={card.title ?? 'Card image'} /> : null;
+	const finalOrientation: Orientation =
+		orientation ?? (['featured', 'preview', 'podcast'].includes(finalVariant) ? 'horizontal' : 'vertical');
+
+	const imageNode = hasImage ? (
+		<Image variant={finalVariant} layout={finalOrientation} src={card.image!} alt={card.title ?? 'Card image'} />
+	) : null;
 
 	const content = (
 		<>
@@ -60,10 +59,12 @@ const Card = ({card, variant, layout = 'normal', orientation = 'vertical', onCli
 		</>
 	);
 
+	const usesWrapper = ['featured', 'preview', 'podcast'].includes(finalVariant);
+
 	return (
-		<CardContainer variant={finalVariant}>
-			{finalVariant === 'featured' || finalVariant === 'podcast' ? (
-				<CardContentWrapper variant={finalVariant} hasImage={hasImage} imageNode={imageNode}>
+		<CardContainer variant={finalVariant} sizeVariant={layout}>
+			{usesWrapper ? (
+				<CardContentWrapper variant={finalVariant} layout={finalOrientation} index={index} hasImage={hasImage} imageNode={imageNode}>
 					{content}
 				</CardContentWrapper>
 			) : (
