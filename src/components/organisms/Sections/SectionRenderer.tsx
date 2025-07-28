@@ -6,10 +6,11 @@ import {Link, useSearchParams} from 'react-router-dom';
 import Title from '../../atoms/Title/Title';
 import Button from '../../atoms/Button/Button';
 import {routes} from '../../../constants/routes';
-import {CardGrid} from './Section.styles';
+import {ActionWrapper, CardGrid} from './Section.styles';
 import TitleWrapper from '../../atoms/TitleWrapper/TitleWrapper';
 import Heading from '../../atoms/Heading/Heading';
 import Section from '../../atoms/Section/Section';
+import Paragraph from '../../atoms/Paragraph/Paragraph';
 
 type Props<T extends CardSectionType> = {
 	cardType: T;
@@ -38,7 +39,7 @@ export function CardSectionRenderer<T extends CardSectionType>({cardType, title,
 			{subtitle && <Heading>{subtitle}</Heading>}
 			<TitleWrapper variant="section">
 				<Title>{title}</Title>
-				<div style={{display: 'flex', gap: '10px', alignItems: 'center'}}>
+				<ActionWrapper>
 					{buttonText && !isContentPage && (
 						<Link to={`${routes.content}?type=${cardType}`}>
 							<Button>{buttonText}</Button>
@@ -47,13 +48,13 @@ export function CardSectionRenderer<T extends CardSectionType>({cardType, title,
 					<Button variant="cta" onClick={handleAdd}>
 						+
 					</Button>
-				</div>
+				</ActionWrapper>
 			</TitleWrapper>
 
 			{loading && <p>Loading...</p>}
 			{error && <p style={{color: 'red'}}>{error}</p>}
 
-			{!loading && sectionCards.length === 0 && <p style={{color: '#888', fontStyle: 'italic', marginTop: '20px'}}>No cards available.</p>}
+			{!loading && sectionCards.length === 0 && <Paragraph variant="message">No cards available.</Paragraph>}
 			<CardGrid $variant={variantMap[cardType]}>
 				{sectionCards.map((card, index) => (
 					<Card

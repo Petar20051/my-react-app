@@ -8,7 +8,6 @@ export function useSidebarLogic({isOpen, closeSidebar, ignoreRef}: SidebarProps)
 	const sidebarRef = useRef<HTMLDivElement | null>(null);
 	const [searchParams, setSearchParams] = useSearchParams();
 
-	// Trigger global logout modal
 	const handleLogout = (e: React.MouseEvent) => {
 		e.preventDefault();
 		const updated = new URLSearchParams(searchParams);
@@ -16,7 +15,6 @@ export function useSidebarLogic({isOpen, closeSidebar, ignoreRef}: SidebarProps)
 		setSearchParams(updated);
 	};
 
-	// Final logout action, to be called by ConfirmDialog in ModalContentRouter
 	const confirmLogout = () => {
 		logout();
 	};

@@ -1,6 +1,6 @@
 import styled, {css} from 'styled-components';
 
-type Variant = 'default' | 'event' | 'news' | 'podcast' | 'solution' | 'featured';
+type Variant = 'default' | 'event' | 'news' | 'podcast' | 'solution' | 'featured' | 'preview';
 
 export const CardGrid = styled.div<{$variant: Variant}>`
 	display: flex;
@@ -65,4 +65,10 @@ export const CardGrid = styled.div<{$variant: Variant}>`
 			justify-content: space-between;
 			max-height: 100%;
 		`}
+`;
+
+export const ActionWrapper = styled.div`
+	display: flex;
+	gap: 10px;
+	align-items: center;
 `;

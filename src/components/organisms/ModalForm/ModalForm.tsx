@@ -6,6 +6,7 @@ import {isTextArea, capitalize} from '../../../utils/formHelpers';
 import {useModalForm} from './ModalForm.logic';
 import type {CardSectionType, Card as CardType} from '../Cards/Card.static';
 import Card from '../Cards/Card';
+import {PreviewCardContainer, PreviewLabel, PreviewWrapper} from './ModalForm.styles';
 
 type ModalFormProps = {
 	mode: 'add' | 'edit';
@@ -83,12 +84,12 @@ const ModalForm = ({mode, cardType, onClose}: ModalFormProps) => {
 				</ButtonGroup>
 			</StyledForm>
 
-			<div style={{marginTop: '30px', paddingTop: '20px', borderTop: '1px solid #ddd'}}>
-				<p style={{fontWeight: 600, marginBottom: '10px'}}>Live Preview:</p>
-				<div style={{maxHeight: '300px', overflowY: 'auto'}}>
+			<PreviewWrapper>
+				<PreviewLabel>Live Preview:</PreviewLabel>
+				<PreviewCardContainer>
 					<Card card={previewCard} layout={formData.layout} orientation={formData.orientation} variant="preview" />
-				</div>
-			</div>
+				</PreviewCardContainer>
+			</PreviewWrapper>
 		</>
 	);
 };
