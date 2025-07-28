@@ -18,3 +18,10 @@ export const ContentWrapper = styled.div`
 		padding: 20px;
 	}
 `;
+
+export const StyledErrorMessage = styled.p`
+	padding: 40px;
+	color: red;
+	font-size: 16px;
+	text-align: center;
+`;

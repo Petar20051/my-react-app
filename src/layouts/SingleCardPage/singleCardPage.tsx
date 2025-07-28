@@ -1,28 +1,32 @@
-import {useEffect, useState} from 'react';
-import {useNavigate, useLocation} from 'react-router-dom';
-import {PageWrapper, ContentWrapper} from '../SIngleSectionPage/singleSectionPage.styles';
-import SingleCard from '../../components/SingleCard/singlecard';
-import {CTAButton} from '../../styles/sections.styles';
-import {ErrorText} from '../../components/Auth/AuthStyles';
-import type {UniversalCard} from '../../types/cards';
+import {useNavigate, useSearchParams} from 'react-router-dom';
+
+import {ContentWrapper, PageWrapper} from '../SIngleSectionPage/SingleSectionPage.styles';
+import type {CardSectionType} from '../../components/organisms/Cards/Card.static';
+import {useCardContext} from '../../context/CardContext';
+import Button from '../../components/atoms/Button/Button';
+import Card from '../../components/organisms/Cards/Card';
+import Paragraph from '../../components/atoms/Paragraph/Paragraph';
 
 const SingleCardPage = () => {
 	const navigate = useNavigate();
-	const location = useLocation();
-	const [card, setCard] = useState<UniversalCard | null>(null);
+	const [searchParams] = useSearchParams();
+	const type = searchParams.get('type') as CardSectionType;
+	const id = searchParams.get('id');
 
-	useEffect(() => {
-		if (location.state?.card) {
-			setCard(location.state.card);
-		}
-	}, [location.state]);
+	const {cards} = useCardContext();
+	const card = type && id ? cards[type]?.[parseInt(id, 10)] : null;
 
 	return (
 		<PageWrapper>
 			<ContentWrapper>
-				<CTAButton onClick={() => navigate(-1)}>← Back to the previous page</CTAButton>
-				{card && <SingleCard card={card} />}
-				{!card && <ErrorText>Card data not found. Please go back and select a card again.</ErrorText>}
+				<Button variant="cta" onClick={() => navigate(-1)}>
+					← Back to the previous page
+				</Button>
+				{card ? (
+					<Card card={card} />
+				) : (
+					<Paragraph variant="message">Card data not found. Please go back and select a card again.</Paragraph>
+				)}
 			</ContentWrapper>
 		</PageWrapper>
 	);

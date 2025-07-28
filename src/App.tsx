@@ -1,61 +1,52 @@
-import {BrowserRouter, Routes, Route} from 'react-router-dom';
+import {BrowserRouter, Routes, Route, Navigate} from 'react-router-dom';
+import {AuthProvider, useAuth} from './context/AuthContext';
+import './styles/global.css';
+import {CardProvider} from './context/CardContext';
+import {routes} from './constants/routes';
+import LoginForm from './pages/Auth/LoginForm';
+import SignupForm from './pages/Auth/SignUpForm';
+import Layout from './pages/MainPage/MainPage';
 
-import GlobalStyle from './styles/GlobalStyle';
-
-import {AuthProvider} from './context/AuthContext';
-
-import Layout from './layouts/MainPage/MainPageLayout';
-
-import LoginForm from './layouts/Auth/LoginForm';
-import SignupForm from './layouts/Auth/SignUpForm';
-import NotFound from './layouts/NotFoundPage/NotFound';
+import NotFound from './pages/NotFoundPage/NotFoundPage';
 import MainContent from './layouts/MainContent/MainContent';
 import SingleContentPage from './layouts/SIngleSectionPage/SingleSectionPage';
 import SingleCardPage from './layouts/SingleCardPage/singleCardPage';
 
-import RouteGuard from './components/Auth/RouteGuard';
+function AppRoutes() {
+	const {user, authReady} = useAuth();
 
-function App() {
+	if (!authReady) return <div>Loading...</div>;
+
+	if (!user) {
+		return (
+			<Routes>
+				<Route path={routes.login} element={<LoginForm />} />
+				<Route path={routes.signup} element={<SignupForm />} />
+				<Route path={routes.not_found} element={<Navigate to={routes.login} replace />} />
+			</Routes>
+		);
+	}
+
+	return (
+		<CardProvider>
+			<Routes>
+				<Route path={routes.home} element={<Layout />}>
+					<Route index element={<MainContent />} />
+					<Route path={routes.content.slice(1)} element={<SingleContentPage />} />
+					<Route path={routes.single.slice(1)} element={<SingleCardPage />} />;
+				</Route>
+				<Route path={routes.not_found} element={<NotFound />} />
+			</Routes>
+		</CardProvider>
+	);
+}
+
+export default function App() {
 	return (
 		<BrowserRouter>
-			<GlobalStyle />
 			<AuthProvider>
-				<Routes>
-					<Route
-						path="login"
-						element={
-							<RouteGuard allowIfAuthenticated={false} redirectTo="/">
-								<LoginForm />
-							</RouteGuard>
-						}
-					/>
-					<Route
-						path="signup"
-						element={
-							<RouteGuard allowIfAuthenticated={false} redirectTo="/">
-								<SignupForm />
-							</RouteGuard>
-						}
-					/>
-
-					<Route
-						path="/"
-						element={
-							<RouteGuard allowIfAuthenticated={true} redirectTo="/login">
-								<Layout />
-							</RouteGuard>
-						}
-					>
-						<Route index element={<MainContent />} />
-						<Route path="content" element={<SingleContentPage />} />
-						<Route path="single" element={<SingleCardPage />} />
-					</Route>
-
-					<Route path="*" element={<NotFound />} />
-				</Routes>
+				<AppRoutes />
 			</AuthProvider>
 		</BrowserRouter>
 	);
 }
-
-export default App;

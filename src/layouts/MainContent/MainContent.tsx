@@ -1,9 +1,9 @@
-import HeroSection from '../../components/Sections/Hero/hero';
-import SolutionsSection from '../../components/Sections/Solution/solutions';
-import FeaturedSection from '../../components/Sections/Featured/featured';
-import NewsSection from '../../components/Sections/News/news';
-import EventsSection from '../../components/Sections/Event/events';
-import PodcastsSection from '../../components/Sections/Podcast/podcasts';
+import EventsSection from '../../components/organisms/Sections/EventSection/EventsSection';
+import FeaturedSection from '../../components/organisms/Sections/FeaturedSection/FeaturedSection';
+import HeroSection from '../../components/organisms/Sections/HeroSection/HeroSection';
+import NewsSection from '../../components/organisms/Sections/NewsSection/NewsSection';
+import PodcastsSection from '../../components/organisms/Sections/PodcastSection/PodcastsSection';
+import SolutionsSection from '../../components/organisms/Sections/SolutionSection/SolutionsSection';
 import {MainWrapper, SectionSplitter, SectionsWrapper} from './MainContent.styles';
 
 export default function MainContent() {
